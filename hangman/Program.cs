@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System.Security.Cryptography;
+using System.Text;
 
 namespace hangman
 {
@@ -6,19 +7,25 @@ namespace hangman
     { 
         static void Main(string[] args)
         {
-            int nbrLives = 3; //how much hp
+            int nbrLives = 5; //how much hp
 
-            string secretWord = "gamedev"; //win condition
+            //wordlist
+            string [] ordLista = { "game", "gamedesign", "laptop", "videogame", "hangman", "pizza", "pasta", "lasagna", "gamedev", "algorithm", "argument", "arrays", "arithmetic", "operators", "assignment", "augmented", "autonomus", "binary", "bit", "camelcase", "coding", "program", "if", "else", "forloops", "function", "increment", "decrement", "input", "java", "library", "main", "machine", "micro", "neural", "neuron", "monkey", "banana",  };
+            Random slump = new Random();
+
+            string secretWord = ordLista[slump.Next (0,ordLista.Length)]; //win condition
 
             StringBuilder displayWord = new StringBuilder(); //create the stringbuilder
+            
 
             for (int i = 0; i < secretWord.Length; i++) //create the underscores that will be shown
             {
                 displayWord.Append('_');
             }
-            Console.WriteLine("nbr of lives:" + nbrLives.ToString()); //show how many lives you have
+            Console.WriteLine("HANGMAN");
+            Console.WriteLine("Lives:" + nbrLives.ToString()); //show how many lives you have
             
-
+            //if not dead game plays
             while (nbrLives > 0)
             {
                 Console.WriteLine(nbrLives.ToString());
@@ -35,10 +42,11 @@ namespace hangman
                 if (secretWord[i] == guessedLetter)
                         correct = true;
                 }
-                Console.WriteLine("Correct? " + correct);
+             
 
                 if (correct == true)
                 {
+                    Console.WriteLine("Correct");
                     for (int i = 0; i < secretWord.Length; i++)
                     {
                         if (secretWord[i] == guessedLetter)
@@ -47,6 +55,7 @@ namespace hangman
                 }
                 else
                 {
+                    Console.WriteLine("Incorrect");
                     nbrLives--;
                     if (nbrLives == 0)
                     {
@@ -58,7 +67,7 @@ namespace hangman
                     Console.WriteLine("VICTORY!!!!!!!!");
                     break;
                 }
-                //break;
+                
             }
 
             Console.WriteLine("Bye");
